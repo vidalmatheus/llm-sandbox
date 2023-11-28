@@ -47,9 +47,9 @@ def show_images_from_openai_response(image_url):
         # Extract filename pattern "img-BdAsWGPtwIrVVIS9CUzeEM05.png"
         filename_match = re.search(r'img-[A-Za-z0-9]+\.png', image_url)
         if filename_match:
-            filename = filename_match.group()
+            filename = f"./img/{filename_match.group()}"
         else:
-            filename = "downloaded_image.png"
+            filename = "./img/downloaded_image.png"
 
         # Save the image in the current directory with the extracted filename
         save_path = os.path.join(os.getcwd(), filename)
@@ -76,14 +76,14 @@ def gen_image(prompt, model="dall-e-3"):
 
 def gen_variant(prompt, model="dall-e-2"):
     card = Image.new("RGBA", (512, 512), (255, 255, 255))
-    img = Image.open("me.png").convert("RGBA")
+    img = Image.open("./img/me.png").convert("RGBA")
     x, y = img.size
     card.paste(img, (0, 0, x, y), img)
-    card.save("me-2.png", format="png")
+    card.save("./img/me-2.png", format="png")
     response = openai.images.edit(
         model=model,
-        image=open("me-2.png", "rb"),
-        mask=open("me-2.png", "rb"),
+        image=open("./img/me-2.png", "rb"),
+        mask=open("./img/me-2.png", "rb"),
         prompt=prompt,
         n=1,
         size="1024x1024"
@@ -95,7 +95,8 @@ def gen_variant(prompt, model="dall-e-2"):
         show_images_from_openai_response(image_url)
 
 
-gen_image("A simple gold necklace with a 5 cm circular pendant of the trxee of life in a given person wearing it")
+# gen_image("A simple gold necklace with a 5 cm circular pendant of the trxee of life in a given person wearing it")
+gen_image("A real person wearing a gold necklace with a pendant of a small simple infinity symbol")
 # gen_image("A woman wearing in her finger a simple plate ring with a little rose gold paw")
 # gen_image("Uma pulseira de prata de berloques da Taylor Swift sendo um do album 1989, um do album reputation, um do album speak now, um do album folklore, um do album lover, um do album midnight")
 
