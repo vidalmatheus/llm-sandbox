@@ -113,7 +113,7 @@ def gen_description(image_path):
         "content": [
             {
             "type": "text",
-            "text": "You're a great describer of jewelry. You describe them with very much details when they are in the image. Describe the given image in a form of a prompt to generate another one afterwards."
+            "text": "You're a great describer of jewelry. You describe them with very much details when they are in the image."
             },
             {
             "type": "image_url",
@@ -135,9 +135,24 @@ def gen_description(image_path):
     return description
 
 
+IMG_TO_DESCRIPTION = {
+    "./img/img-azpe0gilVzNd2MqhC952QpWT.png":
+    """
+    The image showcases a close-up of an elegant pendant necklace worn by a person. The pendant is a circular disc, crafted with a high degree of detail. Central to its design is a beautifully etched tree of life symbol, meticulously rendered to depict the intricate branches and roots which fill the entirety of the pendant's surface. The tree's canopy and roots are interconnected, forming a continuous and harmonious design within the circular boundary.
+
+    The pendant possesses a metal with a warm, golden hue, suggesting it may be gold or gold-plated, and it hangs gracefully from a delicate gold chain. The chain itself features small, regularly spaced links that catch the light with a subtle gleam. The pendant nestles against the individual's collarbone, its placement indicative of both comfort and style.
+
+    The person wearing the necklace has a smooth, unblemished complexion, and we can see the faintest hint of garments draped around the shoulders—a soft, silky fabric in a neutral, cream color that compliments the warm tones of the jewelry. A portion of the person's hair appears to be softly styled and is of a light, natural tone that does not compete with the prominence of the necklace.
+    """
+}
+
 def my_gen_variant(image_path, prompt):
-    description = gen_description(image_path)
-    new_description = f"First prompt: {description} New details: {prompt}. Generate a image with tha first prompt, but considering the new details passed."
+    if image_path in IMG_TO_DESCRIPTION.keys():
+        description = IMG_TO_DESCRIPTION[image_path]
+    else:
+        description = gen_description(image_path)
+        IMG_TO_DESCRIPTION[image_path] = description
+    new_description = f"First prompt: {description}\nNew details: \n{prompt}. \n\nGenerate a image with the first prompt, but considering the new details passed."
     print(new_description)
     print("---------------------------------------")
     gen_image(new_description)
@@ -147,5 +162,5 @@ def my_gen_variant(image_path, prompt):
 # gen_image("A woman wearing in her finger a simple plate ring with a little rose gold paw")
 # gen_image("Uma pulseira de prata de berloques da Taylor Swift sendo um do album 1989, um do album reputation, um do album speak now, um do album folklore, um do album lover, um do album midnight")
 # gen_description("./img/img-azpe0gilVzNd2MqhC952QpWT.png")
-my_gen_variant("./img/img-azpe0gilVzNd2MqhC952QpWT.png", "rose gold, bigger chain of the necklace and bigger pendant")
+my_gen_variant("./img/img-azpe0gilVzNd2MqhC952QpWT.png", "rose gold and bigger pendant, but the necklace chain is the same size")
 
