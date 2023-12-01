@@ -74,18 +74,13 @@ def gen_image(prompt, model="dall-e-3"):
         show_images_from_openai_response(image_url)
 
 
-def gen_variant(prompt, model="dall-e-2"):
-    card = Image.new("RGBA", (512, 512), (255, 255, 255))
-    img = Image.open("./img/me.png").convert("RGBA")
-    x, y = img.size
-    card.paste(img, (0, 0, x, y), img)
-    card.save("./img/me-2.png", format="png")
-    response = openai.images.edit(
-        model=model,
-        image=open("./img/me-2.png", "rb"),
-        mask=open("./img/me-2.png", "rb"),
-        prompt=prompt,
+def gen_variant(model="dall-e-2"):
+    byte_stream: BytesIO = open("./img/img-azpe0gilVzNd2MqhC952QpWT.png", 'rb')
+    byte_array = byte_stream.read()
+    response = openai.images.create_variation(
+        image=byte_array,
         n=1,
+        model=model,
         size="1024x1024"
     )
     
@@ -95,8 +90,8 @@ def gen_variant(prompt, model="dall-e-2"):
         show_images_from_openai_response(image_url)
 
 
+gen_variant()
 # gen_image("A simple gold necklace with a 5 cm circular pendant of the trxee of life in a given person wearing it")
-gen_image("A real person wearing a gold necklace with a pendant of a small simple infinity symbol")
 # gen_image("A woman wearing in her finger a simple plate ring with a little rose gold paw")
 # gen_image("Uma pulseira de prata de berloques da Taylor Swift sendo um do album 1989, um do album reputation, um do album speak now, um do album folklore, um do album lover, um do album midnight")
 
