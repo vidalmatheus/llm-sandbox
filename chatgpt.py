@@ -1,5 +1,7 @@
+import base64
 import os
 import re
+import json
 import openai
 import requests
 from PIL import Image
@@ -87,11 +89,63 @@ def gen_variant(model="dall-e-2"):
     for img in response.data:
         image_url = img.url
         print(image_url)
+        print("---------------------------------------")
         show_images_from_openai_response(image_url)
 
 
-gen_variant()
+def encode_image(image_path):
+  with open(image_path, "rb") as image_file:
+    return base64.b64encode(image_file.read()).decode('utf-8')
+
+
+def gen_description(image_path):
+    base64_image = encode_image(image_path)
+    headers = {
+    "Content-Type": "application/json",
+    "Authorization": f"Bearer {openai.api_key}"
+    }
+
+    payload = {
+    "model": "gpt-4-vision-preview",
+    "messages": [
+        {
+        "role": "user",
+        "content": [
+            {
+            "type": "text",
+            "text": "You're a great describer of jewelry. You describe them with very much details when they are in the image. Describe the given image in a form of a prompt to generate another one afterwards."
+            },
+            {
+            "type": "image_url",
+            "image_url": {
+                "url": f"data:image/png;base64,{base64_image}"
+            }
+            }
+        ]
+        }
+    ],
+    "max_tokens": 300
+    }
+
+    response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+
+    description = response.json()["choices"][0]["message"]["content"]
+    print(description)
+    print("---------------------------------------")
+    return description
+
+
+def my_gen_variant(image_path, prompt):
+    description = gen_description(image_path)
+    new_description = f"First prompt: {description} New details: {prompt}. Generate a image with tha first prompt, but considering the new details passed."
+    print(new_description)
+    print("---------------------------------------")
+    gen_image(new_description)
+
+# gen_variant()
 # gen_image("A simple gold necklace with a 5 cm circular pendant of the trxee of life in a given person wearing it")
 # gen_image("A woman wearing in her finger a simple plate ring with a little rose gold paw")
 # gen_image("Uma pulseira de prata de berloques da Taylor Swift sendo um do album 1989, um do album reputation, um do album speak now, um do album folklore, um do album lover, um do album midnight")
+# gen_description("./img/img-azpe0gilVzNd2MqhC952QpWT.png")
+my_gen_variant("./img/img-azpe0gilVzNd2MqhC952QpWT.png", "rose gold, bigger chain of the necklace and bigger pendant")
 
