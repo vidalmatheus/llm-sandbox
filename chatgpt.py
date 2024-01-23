@@ -1,7 +1,6 @@
 import base64
 import os
 import re
-import json
 from openai import OpenAI
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
