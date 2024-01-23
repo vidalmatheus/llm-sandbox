@@ -2,23 +2,22 @@ import base64
 import os
 import re
 import json
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 import requests
 from PIL import Image
 from io import BytesIO
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def get_response_to_prompt(prompt):
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ],
-    )
+    completion = client.chat.completions.create(model="gpt-3.5-turbo",
+    messages=[
+        {
+            "role": "user",
+            "content": prompt
+        }
+    ])
     return completion.choices[0].message.content
 
 get_response_to_prompt("Hey, how's it going?")

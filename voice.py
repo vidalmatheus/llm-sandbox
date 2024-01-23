@@ -2,7 +2,6 @@ import os
 import openai
 from openai import OpenAI
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI()
 
 response = client.audio.speech.create(
