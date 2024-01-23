@@ -152,7 +152,7 @@ def my_gen_variant(image_path, prompt):
     else:
         description = gen_description(image_path)
         IMG_TO_DESCRIPTION[image_path] = description
-    new_description = f"First prompt: {description}\nNew details: \n{prompt}. \n\nGenerate a image with the first prompt, but considering the new details passed."
+    new_description = f"First prompt: {description}\nNew details: \n{prompt}. \n\nGenerate exact the image with the first prompt, but considering the new details passed."
     print(new_description)
     print("---------------------------------------")
     gen_image(new_description)
@@ -162,5 +162,5 @@ def my_gen_variant(image_path, prompt):
 # gen_image("A woman wearing in her finger a simple plate ring with a little rose gold paw")
 # gen_image("Uma pulseira de prata de berloques da Taylor Swift sendo um do album 1989, um do album reputation, um do album speak now, um do album folklore, um do album lover, um do album midnight")
 # gen_description("./img/img-azpe0gilVzNd2MqhC952QpWT.png")
-my_gen_variant("./img/img-azpe0gilVzNd2MqhC952QpWT.png", "rose gold and bigger pendant, but the necklace chain is the same size")
+my_gen_variant("./img/img-azpe0gilVzNd2MqhC952QpWT.png", "silver")
 
