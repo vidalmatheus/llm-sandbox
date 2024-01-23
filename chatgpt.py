@@ -10,9 +10,18 @@ from io import BytesIO
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def get_response_to_prompt(prompt):
-    completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": prompt}])
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+    )
     return completion.choices[0].message.content
 
+get_response_to_prompt("Hey, how's it going?")
 
 def get_sentiment_from(text):
     resp = get_response_to_prompt(
@@ -162,5 +171,5 @@ def my_gen_variant(image_path, prompt):
 # gen_image("A woman wearing in her finger a simple plate ring with a little rose gold paw")
 # gen_image("Uma pulseira de prata de berloques da Taylor Swift sendo um do album 1989, um do album reputation, um do album speak now, um do album folklore, um do album lover, um do album midnight")
 # gen_description("./img/img-azpe0gilVzNd2MqhC952QpWT.png")
-my_gen_variant("./img/img-azpe0gilVzNd2MqhC952QpWT.png", "silver")
+# my_gen_variant("./img/img-azpe0gilVzNd2MqhC952QpWT.png", "silver")
 
