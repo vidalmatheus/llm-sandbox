@@ -165,7 +165,7 @@ def my_gen_variant(image_path, prompt):
     gen_image(new_description)
 
 # gen_variant()
-gen_image("A simple gold necklace with a 5 cm circular pendant of the trxee of life in a given person wearing it")
+gen_image("A simple gold necklace with a 5 cm circular pendant of the tree of life in a given person wearing it")
 # gen_image("A woman wearing in her finger a simple plate ring with a little rose gold paw")
 # gen_image("Uma pulseira de prata de berloques da Taylor Swift sendo um do album 1989, um do album reputation, um do album speak now, um do album folklore, um do album lover, um do album midnight")
 # gen_description("./img/img-azpe0gilVzNd2MqhC952QpWT.png")
